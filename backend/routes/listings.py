@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from typing import Optional, List
-from ..database import get_database
-from ..models import (
+from database import get_database
+from models import (
     ListingCreate, 
     ListingUpdate, 
     ListingResponse, 
