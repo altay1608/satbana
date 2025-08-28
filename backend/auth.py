@@ -73,7 +73,7 @@ async def get_current_user(
     return user
 
 async def get_current_user_optional(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security, use_cache=False),
     db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Get current user but don't raise exception if not authenticated"""
