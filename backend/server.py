@@ -1,14 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 from pathlib import Path
+import os
 
 # Import database functions
-from .database import connect_to_mongo, close_mongo_connection
+from database import connect_to_mongo, close_mongo_connection
 
 # Import routers
-from .routes import auth, users, listings, messages, favorites
+from routes import auth, users, listings, messages, favorites
 
 # Configure logging
 logging.basicConfig(
