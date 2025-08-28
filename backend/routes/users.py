@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from ..database import get_database
-from ..models import UserUpdate, UserResponse, UserInDB
-from ..auth import get_current_user
+from database import get_database
+from models import UserUpdate, UserResponse, UserInDB
+from auth import get_current_user
 from datetime import datetime
 
 router = APIRouter(prefix="/users", tags=["users"])
