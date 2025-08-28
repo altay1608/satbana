@@ -30,7 +30,7 @@ async def get_database() -> AsyncIOMotorDatabase:
 
 async def create_indexes():
     """Create database indexes for better performance"""
-    if database:
+    if database is not None:
         # User indexes
         await database.users.create_index("email", unique=True)
         
