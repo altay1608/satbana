@@ -6,11 +6,13 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Checkbox } from '../components/ui/checkbox';
 import { useToast } from '../hooks/use-toast';
+import { useAuth } from '../contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login, loading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -23,7 +25,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Mock validation
+    // Validation
     if (!formData.email || !formData.password) {
       toast({
         title: "Eksik Bilgi",
@@ -34,8 +36,9 @@ const Login = () => {
       return;
     }
 
-    // Mock login success
-    setTimeout(() => {
+    const result = await login(formData.email, formData.password);
+
+    if (result.success) {
       toast({
         title: "Giriş Başarılı!",
         description: "Hoş geldiniz! Anasayfaya yönlendiriliyorsunuz...",
@@ -44,8 +47,15 @@ const Login = () => {
       setTimeout(() => {
         navigate('/');
       }, 1500);
-      setIsLoading(false);
-    }, 1000);
+    } else {
+      toast({
+        title: "Giriş Başarısız",
+        description: result.error,
+        variant: "destructive"
+      });
+    }
+    
+    setIsLoading(false);
   };
 
   const handleInputChange = (field, value) => {
