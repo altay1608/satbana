@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from typing import List, Optional
-from ..database import get_database
-from ..models import MessageCreate, MessageResponse, MessageInDB, UserInDB
-from ..auth import get_current_user
+from database import get_database
+from models import MessageCreate, MessageResponse, MessageInDB, UserInDB
+from auth import get_current_user
 from datetime import datetime
 
 router = APIRouter(prefix="/messages", tags=["messages"])
