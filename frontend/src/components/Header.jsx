@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User, Heart, Menu, Plus } from 'lucide-react';
+import { Search, User, Heart, Menu, Plus, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { useAuth } from '../contexts/AuthContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   const categories = [
