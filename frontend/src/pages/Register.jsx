@@ -6,11 +6,13 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Checkbox } from '../components/ui/checkbox';
 import { useToast } from '../hooks/use-toast';
+import { useAuth } from '../contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 
 const Register = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -60,8 +62,18 @@ const Register = () => {
       return;
     }
 
-    // Mock registration success
-    setTimeout(() => {
+    // Prepare registration data
+    const registrationData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      password: formData.password
+    };
+
+    const result = await register(registrationData);
+
+    if (result.success) {
       toast({
         title: "Kayıt Başarılı!",
         description: "Hesabınız oluşturuldu. Giriş sayfasına yönlendiriliyorsunuz...",
@@ -70,8 +82,15 @@ const Register = () => {
       setTimeout(() => {
         navigate('/login');
       }, 1500);
-      setIsLoading(false);
-    }, 1000);
+    } else {
+      toast({
+        title: "Kayıt Başarısız",
+        description: result.error,
+        variant: "destructive"
+      });
+    }
+    
+    setIsLoading(false);
   };
 
   const handleInputChange = (field, value) => {
